@@ -13,8 +13,6 @@ use Stancl\Tenancy\Tenancy;
 
 class UniversalRoutes implements Feature
 {
-    public static $middlewareGroup = 'universal';
-
     public static $identificationMiddlewares = [
         Middleware\InitializeTenancyByDomain::class,
         Middleware\InitializeTenancyBySubdomain::class,
@@ -24,7 +22,7 @@ class UniversalRoutes implements Feature
     {
         foreach (static::$identificationMiddlewares as $middleware) {
             $middleware::$onFail = function ($exception, $request, $next) {
-                if (static::routeHasMiddleware($request->route(), static::$middlewareGroup)) {
+                if (static::routeHasMiddleware($request->route(), 'universal')) {
                     return $next($request);
                 }
 
